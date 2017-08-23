@@ -1,0 +1,240 @@
+</table>
+		<input type="hidden" name="new_playlist" value="true"/>
+		<input type="hidden" id="project_id_field" name="project_id" value=""/>
+	</form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <a href="#" class="btn btn-primary">Create</a>
+  </div>
+</div>
+
+
+<div id="create_project_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">New project</h3>
+  </div>
+  <div class="modal-body">
+    <form id="create_project_form" action="javascript:create_project();" method="post">
+		<input type='hidden' name='csrfmiddlewaretoken' value='i6f0yZ2DzxdtCPE0VDPUb0SqykU0b1VN' />
+		<table>
+			<tr>
+				<td>Name:</td><td><input type="text" name="project_name" id="project_name" value=""/></td>
+			</tr>
+		</table>
+		<input type="hidden" name="new_project" value="true"/>
+	</form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <a href="#" class="btn btn-primary">Create</a>
+  </div>
+</div>
+
+<div id="copy-project-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="copyProjLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="copyProjLabel">Copy project</h3>
+  </div>
+  <div class="modal-body">
+	<form class="form-inline" id="copy-project-form" method="post" project-id="">
+	<fieldset>
+		<input type='hidden' name='csrfmiddlewaretoken' value='i6f0yZ2DzxdtCPE0VDPUb0SqykU0b1VN' />
+		<label for="project_copy_name" style="margin-right: 10px;">Name:</label>
+		<input type="text" id="project_copy_name" name="project_copy_name" value="">
+		<span class="help-block" style="margin-bottom: -10px; margin-top: 15px;">This will create a copy of this project and its playlists. Continue?</span>
+		</fieldset>
+	</form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button type="submit" class="btn btn-inverse" id="copy-project-submit-btn">OK</button>
+  </div>
+</div>
+
+<!-- END MY MUSIC MODALS -->
+
+<!-- MY MUSIC ADMIN ALBUM MODALS -->
+
+
+
+<!-- END MY MUSIC ADMIN ALBUM MODALS -->
+
+
+<!-- FOOTER BUTTONS FOR CONFIRM MODALS -->
+<div id='confirm-modal-footer' class='modal-footer' style="display: none;">
+	<button class='btn btn-default btn-alternative-yes'>Ok</button>
+	<button class='btn btn-success btn-alternative-no'>Cancel</button>
+</div>
+<!-- END FOOTER BUTTONS FOR CONFIRM MODALS -->
+
+<div id="return-policy-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Return Policy</h3>
+  </div>
+  <div class="modal-body">
+    If you want to cancel a purchase, please contact us at <a href="mailto:hello@epidemicsound.com">hello@epidemicsound.com</a>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+<div id="epidemic-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h2 class="modal-title es-modal-header"></h2>
+    </div>
+    <div class="modal-body"></div>
+</div>
+
+<div id="checkout-confirm-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h2 class="modal-title es-modal-header"></h2>
+    </div>
+    <div class="modal-body"></div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#add_track_modal_btn_ok").click(function(event){
+		add_track();
+	});
+
+	$("#add_track_modal_btn_close").click(function(event){
+		hide_popover("#add_track_div");
+	});
+
+	$("#copy-project-form").submit(function(e){
+		e.preventDefault();
+		$("#copy-project-submit-btn").click();
+	});
+
+	$("#copy-project-submit-btn").click(function(e){
+		e.preventDefault();
+		ESJS.indicateLoadingButton($("#copy-project-submit-btn"));
+		var projectId = $("#copy-project-form").attr("project-id");
+		var data = $("#copy-project-form").serializeArray();
+		var action = "/my_music/projects/" + projectId + "/copy/";
+
+		/*$.post(action, data, projectCopySuccess,"json"); */
+		$.ajax({
+	        type: "POST",
+	        url: action,
+	        data: data,
+	        success: function(returned_data){
+	        	ESJS.indicateStopLoadingButton($("#copy-project-submit-btn"));
+	        	$('#copy-project-modal').modal('hide');
+
+	        	$("#project_list").prepend(returned_data);
+	        	var proj_id = $("#project_list > .my-music-project-list-item").attr("project");
+	        	var proj_name = $("#project_list > .my-music-project-list-item").attr("name");
+	        	addExpandableProjectListener("#project_toggle_"+proj_id);
+	        	updateProjFilter(proj_id, proj_name);
+	        	updateAddTrackFormProject(proj_id, proj_name);
+	        },
+	        error: function(returned_data){
+	        	ESJS.indicateStopLoadingButton($("#copy-project-submit-btn"));
+	        	$('#copy-project-modal').modal('hide');
+	        	alert("An error occurred while trying to copy this project.")
+	        }
+	    });
+	});
+});
+
+function show_add_track_modal(track_id) {
+	$("#track_id_field").val(track_id);
+	$('#add_track_modal').modal('show');
+}
+
+function add_track() {
+	data = $("#add_track_form").serializeArray();
+	playlist_id = $("#add_track_modal_playlist").find(":selected").attr('playlist_id');
+	url = "/playlist/" + playlist_id + "/";
+
+	$.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(returned_data){
+        	// TODO: indicate that track has been added in my music here
+        	alert("Added!");
+        	//$('#add_track_modal').modal('hide');
+        	hide_popover("#add_track_div");
+        },
+        error: function(returned_data){
+        }
+    });
+}
+
+function hide_popover(div_id) {
+	var link_source = $(div_id).attr("link_source_id");
+	$("#" + link_source).popover('hide');
+	$("#" + link_source).attr("isopen", "false");
+}
+
+function load_variables(varname, value) {
+	
+}
+
+</script>
+        </div>
+i Could KiLl all day...
+        <div id="footer-wrapper">
+            <div id="footer-container">
+                <div id="footer-content">
+ 8H473                   <div class="colwrap">
+<div class="footer-col footer-col-help">
+    <div class="help-and-support">
+        <h4>
+            HELP &amp; SUPPORT
+        </h4>
+        <p>
+        
+        <i><a class="feedback-link" href="mailto:hello@epidemicsound.com">Send us a message</a></i> or check out our <i><a href="https://epidemicsound.zendesk.com/hc/en-us?email=zaynemarsh919@gmail.com">FAQ</a></i>.
+        
+        </p>
+    </div>
+</div>
+<div class="footer-col">
+    <h4>
+        GENERAL
+    </h4>
+    <ul>
+        <li>
+            <a class="hoptop" href="/">Home</a>
+        </li>
+        <li>
+            <a href="/in-store-music/">In-Store Music</a>
+        </li>
+        <li>
+            <a target="_blank" href="http://www.epidemicsound.com/about/">About Us</a>
+        </li>
+        <li>
+            <a target="_blank" href="http://www.epidemicsound.com/composers/">Composers</a>
+        </li>
+        <li>
+            <a target="_blank" href="http://epidemic-sound.teamtailor.com/">Career</a>
+        </li>
+        <li>
+            <a target="_blank" href="http://www.epidemicsound.com/press/">Press</a>
+        </li>
+        <li>
+            <a target="_blank" href="http://www.epidemicsound.com/contact/">Contact</a>
+        </li>
+    </ul>
+</div>
+<div class="footer-col-divider">
+    &nbsp;
+</div>
+<div class="footer-col">
+    <h4>
+        MUSIC
+    </h4>No Body
+    <ul>
+        <li>
+            <a class="hoptop" href="/#/browse/">Browse</a>
+        </li>
