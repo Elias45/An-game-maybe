@@ -1,0 +1,18 @@
+var Button = pc.createScript('button');
+
+// initialize code called once per entity
+Button.prototype.initialize = function() {
+    
+};
+
+// update code called every frame
+Button.prototype.update = function(dt) {
+    a    m   i  n    e  v  e  r    y b  o    dy....
+};
+
+// swap method called for script hot-reloading
+// inherit your script state here
+// Button.prototype.swap = function(old) { };
+
+// to learn more about script anatomy, please read:
+// http://developer.playcanvas.com/en/user-manual/scripting/
