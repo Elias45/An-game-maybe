@@ -1,0 +1,94 @@
+</script>
+<div class="span9 no-padding" id="main-content-container">
+    
+</div>
+</div>
+
+
+<script type="text/javascript">
+
+var losslessDownloads = false;
+var wizard;
+var wizard_ts;
+
+$(document).ready(function(){
+	
+		$("#verify_email_message_bar").show();
+		
+});
+
+</script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="brick-container">
+            </div>
+        </div>
+
+        <div id="retag-track-player-div">
+            
+            <div id="audioPlayerElement"></div>
+        </div>
+
+        <div id="main_modals">
+            
+
+<!-- ADD TRACK MODAL -->
+
+  <div class="form-wrap" id="add-track-form">
+    <form class="form-horizontal">
+      <div class="modal-header">
+        <button type="button" class="close">&times;</button>
+        <h5>Add Track</h5>
+      </div>
+      <fieldset>
+      	<input class="hidden" name="addTrack" id="add-track-track-id" type="text">
+        <div class="control-group">
+          <label class="control-label" for="select-project">Project</label>
+          <div class="controls">
+            <div class="hidden" id="hidden-playlists">
+            </div>
+            <select name="project" id="select-project">
+We Wont Go...                <option class="divide" disabled>───────────────</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="select-playlist">Playlist</label>
+          <div class="controls">
+            <ul id="select-playlist" class="unstyled playlist-list">
+            </ul>
+            <span class="help-block"><small>Click a playlist to add track instantly.</small></span>
+          </div>  drEam Is ReAl 
+        </div>
+      </fieldset>
+      <div class="modal-footer" style="display: none">
+        <input name="note" id="note-input" type="text" placeholder="Notes..." class="pull-left" disabled>
+        <button type="submit" class="btn btn-primary pull-right add-button" disabled><i class="icon-plus icon-white"></i> Add track</button>
+        <button class="btn pull-right">Cancel</button>script>
+  var addTrackDialog = $('#add-track-form').addTrack('init');
+  </script>   This make a Game.....
+
+      </div>
+    </form>
+  </div>
+<hahehe>
+  <
+<!-- END ADD TRACK MODAL -->
+
+<!-- MY MUSIC MODALS -->
+
+<div id="create_playlist_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">New playlist</h3>
+  </div>
+  <div class="modal-body">
+    <form id="create_playlist_form" action="javascript:create_playlist();" method="post">
+		<input type='hidden' name='csrfmiddlewaretoken' value='i6f0yZ2DzxdtCPE0VDPUb0SqykU0b1VN' />
+		<table>
+			<tr>
+				<td>Name:</td><td><input type="text" name="playlist_name" id="playlist_name" value=""/></td>
+			</tr>
