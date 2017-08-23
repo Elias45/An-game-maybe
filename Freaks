@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>The Epidemic Sound Player</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <meta property="og:image" content="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/images/epidemic-sound-logo-square.png" />
+
+        <!-- CSS -->
+        <link href="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/css/bootstrap.css" rel="stylesheet">
+        <link href="/static_media/css/fonts.css?clear=4" rel="stylesheet">
+        <link href="/static_media/css/es-font.css?clear=3" rel="stylesheet">
+        <link href="/static_media/css/main.css?clear=17" rel="stylesheet">
+        <link href="/static_media/css/signup.css?clear=2" rel="stylesheet">
+        <link href="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/css/autocomplete.css" rel="stylesheet">
+        <link href="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/css/jquery-ui.css" rel="stylesheet">
+        <link href="/static_media/css/font-awesome.css" rel="stylesheet">
+
+        <link rel="icon" type="image/png" href="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/images/favicon.png">
+
+        <script src="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/js/app.js"></script>
+        <script src="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/js/polyfill.js"></script>
+        <script src="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/js/main.js"></script>
+        <script src="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/js/notifications.js"></script>
+        <script src="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/js/es_track.js"></script>
+        <script src="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/js/my_music.js"></script>
+        <script src="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/js/es_addtrack.js"></script>
+        <script src="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/js/jquery.bootpag.js"></script>
+        <script src="https://d34qmkt8w5wll9.cloudfront.net/player/3.0.39/js/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript">
+            dataLayer = [];
+        </script>
+        <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+        <script type="text/javascript">
+            window.__INITDATA = {"user": {"userName": "USpY4_l8_d", "memberships": [], "isAdmin": false, "canSendInvites": false, "realName": "Zayne Marsh", "accountType": "Basic", "hasPartnerPortalAccess": false, "isAnonymous": false, "email": "zaynemarsh919@gmail.com", "subscription": false}, "cart": 0};
+        </script>
+
+        
+
+        <script type="text/javascript">
+            ESJS.userIsAnonymous = 'False' === 'True';
+
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                    }
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });
+
+            $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+                console.log(thrownError);
+                if (thrownError.toUpperCase() == "FORBIDDEN" || thrownError.toUpperCase() == "UNAUTHORIZED") {
+                    var url = jqxhr.getResponseHeader('WWW-Authenticate');
+                    ESModal.load(url, "You need to be logged in");
+                    ESModal.addClass("login-modal");
+                }
+            });
+
+            ESJS.setUser("USpY4_l8_d");
+
+            $(document).ready(function() {
+                ESJS.addLinkListener('a.tab-link');
+            });
+        </script>
+    </head>
+    <body>
+        <!-- Google Tag Manager -->
+        <noscript>
+            <iframe src="//www.googletagmanager.com/ns.html?id=GTM-K3LQPX"
+                    height="0" width="0" style="display:none;visibility:hidden">
+            </iframe>
+        </noscript>
+        <script type="text/javascript">
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-K3LQPX');
+        </script>
+        <!-- End Google Tag Manager -->
+        <div id="player-error">
+            There was a problem loading the player. Please make sure you have Flash installed and up to date.
+        </div>
+        <div id="navElement">
+        </div>
+        <div id="wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <div class="tab-content" id="main-content">
+Who am i?                            <div class="tab-pane active">
+ FrEaksHow CiRuS BaDy                               <div class="row-fluid">
+
+<div class="span3 home-column" id="main-menu">
+    <div class="row-fluid">
+        <div id="my-music-container-left" class="span12">
+            
+            <h4 class="my-music-title azo-sanslight es-black">My Music</h4>
+
+                
+
+                <div id="my-music-projects-container">
+                    <p class="project-scroll-up">
+                      <i class="icon-chevron-up">&nbsp;</i>
+                    </p>
+                    <div id="my-music-projects">
+                    <div class="row-fluid">
+                        <input id="filter-field-project" class="filter-field span12" type="text" title="Filter by project name" placeholder="Type to filter projects"></input>
+                    </div>
+
+                    <div id="my_project_div" class="row-fluid">
+                        <ul class="nav nav-list" id="private_project_list">
+                        </ul>
+                    </div>
+
+                    <div id="proj-filter-no-results-message" class="alert alert-info">
+                        No matches for your search.
+                    </div>
+
+                    <div id="projects_div" class="row-fluid">
+                        <form class="form-inline" id="new-project-form" action="/my_music/projects/">
+                            <input id="new_project_textfield" class="span11" type="text" name="project_name" placeholder="+ New project" autocomplete="off" />
+                        </form>
+                        <ul class="nav nav-list" id="project_list">
+                        </ul>
+                    </div>
+                    </div>
+                    <p class="project-scroll-down">
+                      <i class="icon-chevron-down">&nbsp;</i>
+                    </p>
+                </div>
+            
+        </div>
+    </div>
+</div>
+am a freak..........
+<script type="text/javascript">
+
+$(".login-link").click(function(e){
+  e.preventDefault();
+	ESModal.load(url="/login/", "Log in");
+	ESModal.addClass("login-modal");
+});
+
+
